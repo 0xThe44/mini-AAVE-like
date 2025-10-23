@@ -1,0 +1,30 @@
+{
+  "name": "mini-aave",
+  "version": "1.0.0",
+  "description": "Minimal AAVE-like lending protocol",
+  "main": "index.js",
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "test:gas": "forge test --gas-report",
+    "test:fuzz": "forge test --fuzz-runs 1000",
+    "test:invariant": "forge test --invariant-runs 1000",
+    "deploy": "forge script scripts/deploy.js --rpc-url http://127.0.0.1:8545 --broadcast",
+    "anvil": "anvil",
+    "slither": "slither contracts/",
+    "echidna": "echidna-test contracts/LendingPool.sol"
+  },
+  "keywords": [
+    "defi",
+    "lending",
+    "aave",
+    "solidity",
+    "foundry"
+  ],
+  "author": "Razumovsky",
+  "license": "MIT",
+  "devDependencies": {
+    "@openzeppelin/contracts": "^5.0.0",
+    "hardhat": "^2.19.0"
+  }
+}
