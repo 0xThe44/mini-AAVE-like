@@ -1,10 +1,15 @@
 # Mini-Aave Protocol
 
-A minimal implementation of an AAVE-like lending protocol built with Solidity ^0.8.20 and Foundry.
+[![Solidity 0.8.20](https://img.shields.io/badge/Solidity-%5E0.8.20-blue)](https://soliditylang.org)  
+[![Tests](https://img.shields.io/badge/tests-95%25-brightgreen)]()  
+[![License MIT](https://img.shields.io/badge/license-MIT-green)]()
+
+A minimal implementation of an AAVE-like lending protocol built with Solidity ^0.8.20 and Foundry for portfolio
 
 ## Overview
 
 This protocol allows users to:
+
 - **Deposit** assets to earn interest
 - **Borrow** assets against collateral
 - **Liquidate** undercollateralized positions
@@ -12,31 +17,24 @@ This protocol allows users to:
 
 ## Architecture
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   LendingPool   │────│   InterestRate  │    │   MockOracle    │
-│   (Core Logic)  │    │     Model       │    │   (Prices)      │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │
-         │
-┌─────────────────┐    ┌─────────────────┐
-│     AToken      │    │   ERC20Mock     │
-│ (Interest Token)│    │  (Test Assets)  │
-└─────────────────┘    └─────────────────┘
-```
+![alt text](image.png)
 
 ## Key Components
 
 ### 1. LendingPool
+
 Core contract managing deposits, borrows, and liquidations.
 
 ### 2. AToken
+
 Interest-bearing token representing user's share in the pool.
 
 ### 3. InterestRateModel
+
 Piecewise linear interest rate calculation based on utilization.
 
 ### 4. MockOracle
+
 Simple price oracle for testing (replace with Chainlink in production).
 
 ## Interest Rate Formula
@@ -48,6 +46,7 @@ BorrowRate = baseRate + (U <= kink ? U*slope1 : kink*slope1 + (U-kink)*slope2)
 ```
 
 Where:
+
 - `U` = utilization rate (totalBorrows / totalLiquidity)
 - `baseRate` = 2% APR
 - `slope1` = 10% APR (below kink)
@@ -70,13 +69,38 @@ HealthFactor = (totalCollateral * liquidationThreshold) / totalDebt
 3. **Liquidation Bonus**: 5% discount on collateral for liquidators
 4. **Formula**: `collateralToSeize = repayAmount * (1 + liquidationBonus) * debtPrice / collateralPrice`
 
+## Test Coverage
+
+```
+╭---------------------------------+------------------+------------------+----------------+----------------╮
+| File                            | % Lines          | % Statements     | % Branches     | % Funcs        |
++=========================================================================================================+
+| contracts/AToken.sol            | 100.00% (13/13)  | 100.00% (8/8)    | 50.00% (2/4)   | 100.00% (5/5)  |
+|---------------------------------+------------------+------------------+----------------+----------------|
+| contracts/ERC20Mock.sol         | 50.00% (4/8)     | 50.00% (2/4)     | 100.00% (0/0)  | 50.00% (2/4)   |
+|---------------------------------+------------------+------------------+----------------+----------------|
+| contracts/InterestRateModel.sol | 90.91% (10/11)   | 90.00% (9/10)    | 50.00% (1/2)   | 100.00% (2/2)  |
+|---------------------------------+------------------+------------------+----------------+----------------|
+| contracts/LendingPool.sol       | 93.37% (169/181) | 93.27% (194/208) | 54.29% (38/70) | 84.62% (11/13) |
+|---------------------------------+------------------+------------------+----------------+----------------|
+| contracts/MockOracle.sol        | 100.00% (7/7)    | 100.00% (5/5)    | 50.00% (2/4)   | 100.00% (2/2)  |
+|---------------------------------+------------------+------------------+----------------+----------------|
+| Total                           | 92.27% (203/220) | 92.77% (218/235) | 53.75% (43/80) | 84.62% (22/26) |
+╰---------------------------------+------------------+------------------+----------------+----------------╯
+
+```
+
+\*It's not covering all of ERC20 because it's mock token for example usage.
+
 ## Setup
 
 ### Prerequisites
+
 - Foundry
 - Node.js (for deployment scripts)
 
 ### Installation
+
 ```bash
 # Clone and setup
 git clone <repo>
@@ -97,6 +121,7 @@ forge test --gas-report
 ```
 
 ### Local Development
+
 ```bash
 # Start local node
 anvil
@@ -108,6 +133,7 @@ forge script scripts/deploy.js --rpc-url http://127.0.0.1:8545 --broadcast
 ## Testing
 
 ### Unit Tests
+
 ```bash
 # Run all tests
 forge test
@@ -120,12 +146,14 @@ forge test -vvv
 ```
 
 ### Fuzz Testing
+
 ```bash
 # Run fuzz tests
 forge test --fuzz-runs 1000
 ```
 
 ### Invariant Testing
+
 ```bash
 # Run invariant tests
 forge test --invariant-runs 1000
@@ -138,6 +166,15 @@ forge test --invariant-runs 1000
 - **Health Factor Checks**: Prevents undercollateralized positions
 - **Access Control**: Owner-only admin functions
 - **Input Validation**: Comprehensive parameter validation
+
+```
+slither .
+```
+
+- **0 critical**
+- **2 Medium** (on aToken and IERC20 - known, not issue)
+- **3 Lows**
+- **4 Info**
 
 ## Known Limitations
 
@@ -165,9 +202,9 @@ forge test --invariant-runs 1000
 
 ## Production Considerations
 
-For production deployment, consider:
+For production deployment, i would add:
 
-1. **Oracle Security**: Use Chainlink with multiple price feeds
+1. **Oracle Security**: Chainlink with multiple price feeds
 2. **Governance**: Implement decentralized governance
 3. **Flash Loans**: Add flash loan functionality
 4. **Multi-Asset**: Support multiple collateral types

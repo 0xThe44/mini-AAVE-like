@@ -308,7 +308,7 @@ contract LendingPool is Ownable, ReentrancyGuard {
         debtReserve.totalBorrows -= actualRepay;
         debtReserve.totalLiquidity += actualRepay;
 
-        // Уменьшить ликвидность по коллатералю и сжечь aToken заемщика (convert underlying -> aToken units)
+        // Decrease liquidity for collateral and burn aToken of borrower (convert underlying -> aToken units)
         ReserveData storage collateralReserve = reserves[collateralAsset];
         collateralReserve.totalLiquidity -= collateralToSeize;
         uint256 aTokenAmount = (collateralToSeize * WAD) / collateralReserve.liquidityIndex;
