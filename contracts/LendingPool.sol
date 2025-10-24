@@ -100,7 +100,7 @@ contract LendingPool is Ownable, ReentrancyGuard {
         });
 
         // set lendingPool in aToken (owner of aToken must be this caller)
-        AToken(aToken).setLendingPool(address(this));
+        //AToken(aToken).setLendingPool(address(this));
 
         emit /* optional */ Deposit(address(0), asset, 0); // (no-op event to signal init)
     }
