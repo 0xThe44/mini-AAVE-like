@@ -17,15 +17,11 @@ This protocol allows users to:
 
 ## Contracts
 
-All contracts are deployed to Sepolia Testnet:
+### Deployment
 
-LendingPool - https://sepolia.etherscan.io/address/0xd5f40fe9BdC674238708a690F6f61BD0CD36e02E
-
-AToken - https://sepolia.etherscan.io/address/0x16E6178514070d9F290f1C6f04075B512bb71386
-
-InterestRateModel - https://sepolia.etherscan.io/address/0x03c018CeAa3ca8eA3453bC3C4C178f381526c342
-
-MockOracle - https://sepolia.etherscan.io/address/0x443DDD2cCbF0993287F66799531ab12DE3d80AcD
+**Network:** Sepolia  
+**Contract Address:** [0xEFd6e6b48D59A0E3bCE199204abdF985C82658d7](https://testnet.routescan.io/address/0xEFd6e6b48D59A0E3bCE199204abdF985C82658d7)  
+**Verified Source:** [Sourcify Repository](https://repo.sourcify.dev/11155111/0xEFd6e6b48D59A0E3bCE199204abdF985C82658d7/)
 
 ## Architecture
 
