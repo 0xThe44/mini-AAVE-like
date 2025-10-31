@@ -4,7 +4,9 @@
 [![Tests](https://img.shields.io/badge/tests-95%25-brightgreen)]()  
 [![License MIT](https://img.shields.io/badge/license-MIT-green)]()
 
-A minimal implementation of an AAVE-like lending protocol built with Solidity ^0.8.20 and Foundry for portfolio
+A minimal implementation of an AAVE-like lending protocol built with Solidity ^0.8.20 and Foundry for portfolio.
+
+* ###### *v2 is on the way, featuring off-chain logic to make the protocol more production-ready*
 
 ## Overview
 
